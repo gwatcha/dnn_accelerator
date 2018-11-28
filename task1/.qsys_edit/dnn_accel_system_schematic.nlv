@@ -1,0 +1,27 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst pixel_xform_system.jtag_uart_0 -pg 1 -lvl 3 -y 110
+preplace inst pixel_xform_system.vga_adapter_0 -pg 1 -lvl 3 -y 250
+preplace inst pixel_xform_system.mult_0 -pg 1 -lvl 3 -y 210
+preplace inst pixel_xform_system.onchip_memory2_0 -pg 1 -lvl 3 -y 30
+preplace inst pixel_xform_system.nios2_gen2_0 -pg 1 -lvl 2 -y 100
+preplace inst pixel_xform_system.leds -pg 1 -lvl 3 -y 530
+preplace inst pixel_xform_system.nios2_gen2_0.clock_bridge -pg 1
+preplace inst pixel_xform_system.clk_0 -pg 1 -lvl 1 -y 50
+preplace inst pixel_xform_system.switches -pg 1 -lvl 3 -y 350
+preplace inst pixel_xform_system.nios2_gen2_0.cpu -pg 1
+preplace inst pixel_xform_system.nios2_gen2_0.reset_bridge -pg 1
+preplace inst pixel_xform_system.count_0 -pg 1 -lvl 3 -y 450
+preplace inst pixel_xform_system -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc INTERCONNECT<net_container>pixel_xform_system</net_container>(MASTER)clk_0.clk_reset,(SLAVE)count_0.reset,(SLAVE)leds.reset,(SLAVE)switches.reset,(MASTER)nios2_gen2_0.debug_reset_request,(SLAVE)nios2_gen2_0.reset,(SLAVE)onchip_memory2_0.reset1,(SLAVE)jtag_uart_0.reset,(SLAVE)vga_adapter_0.reset) 1 1 2 310 60 730
+preplace netloc POINT_TO_POINT<net_container>pixel_xform_system</net_container>(SLAVE)mult_0.nios_custom_instruction_slave,(MASTER)nios2_gen2_0.custom_instruction_master) 1 2 1 690
+preplace netloc EXPORT<net_container>pixel_xform_system</net_container>(SLAVE)clk_0.clk_in,(SLAVE)pixel_xform_system.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>pixel_xform_system</net_container>(SLAVE)pixel_xform_system.switches,(SLAVE)switches.external_connection) 1 0 3 NJ 380 NJ 380 NJ
+preplace netloc EXPORT<net_container>pixel_xform_system</net_container>(SLAVE)vga_adapter_0.conduit_end,(SLAVE)pixel_xform_system.conduit_end) 1 0 3 NJ 300 NJ 300 NJ
+preplace netloc POINT_TO_POINT<net_container>pixel_xform_system</net_container>(SLAVE)jtag_uart_0.irq,(MASTER)nios2_gen2_0.irq) 1 2 1 750
+preplace netloc EXPORT<net_container>pixel_xform_system</net_container>(SLAVE)pixel_xform_system.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>pixel_xform_system</net_container>(SLAVE)pixel_xform_system.leds,(SLAVE)leds.external_connection) 1 0 3 NJ 560 NJ 560 NJ
+preplace netloc FAN_OUT<net_container>pixel_xform_system</net_container>(SLAVE)nios2_gen2_0.clk,(MASTER)clk_0.clk,(SLAVE)leds.clk,(SLAVE)count_0.clock,(SLAVE)jtag_uart_0.clk,(SLAVE)onchip_memory2_0.clk1,(SLAVE)vga_adapter_0.clock,(SLAVE)switches.clk) 1 1 2 290 40 770
+preplace netloc INTERCONNECT<net_container>pixel_xform_system</net_container>(SLAVE)count_0.avalon_slave_0,(SLAVE)switches.s1,(MASTER)nios2_gen2_0.instruction_master,(MASTER)nios2_gen2_0.data_master,(SLAVE)jtag_uart_0.avalon_jtag_slave,(SLAVE)leds.s1,(SLAVE)vga_adapter_0.avalon_slave_0,(SLAVE)onchip_memory2_0.s1,(SLAVE)nios2_gen2_0.debug_mem_slave) 1 1 2 330 580 710
+levelinfo -pg 1 0 80 1040
+levelinfo -hier pixel_xform_system 90 120 450 820 1030
