@@ -26,6 +26,8 @@ module sdram_master(input logic         clk, input logic rst_n,
    logic [31:0]                         nxt_data;
    logic [31:0]                         b_index;
 
+   /* snapshots of latest inputs, as they are subject to change throughout copyin */
+  reg [31:0]  S_dest_addr, S_src_addr, S_num_words ;
 
    /* state transition combinational logic */
    always@(*) begin
@@ -37,7 +39,7 @@ module sdram_master(input logic         clk, input logic rst_n,
             READ :  nst = master_waitrequest ? READ : WAITV; /* wait until waitrequest goes down */
            WAITV :  nst = master_readdatavalid ? WRITE : WAITV ;
            WRITE :  nst = master_waitrequest ? WRITE : LOOP;
-            LOOP :  nst = copied_words >= num_words ? RESET : READ ;
+            LOOP :  nst = copied_words >= S_num_words ? RESET : READ ;
            default : nst = st;
          endcase
       end
@@ -48,6 +50,7 @@ module sdram_master(input logic         clk, input logic rst_n,
       st <= nst;
    end
 
+   logic saved;
    /*  logic  */
    always @(posedge clk) begin
       // unless specified in a state, we are not writing or reading and we are in
@@ -58,18 +61,26 @@ module sdram_master(input logic         clk, input logic rst_n,
 
       case (nst)
         RESET : begin
+          saved = 0;
            copying = 0;
            copied_words = 0;
            b_index = 0;
         end
         READ  :  begin
+          /* save values */
+          if ( saved === 0) begin
+            saved = 1;
+            S_dest_addr = dest_addr;
+            S_src_addr = src_addr;
+            S_num_words = num_words;
+          end
            master_read = 1;
-           master_address = src_addr + b_index ;
+           master_address = S_src_addr + b_index ;
         end
         WRITE : begin
            nxt_data = master_readdata;
            master_write = 1;
-           master_address = dest_addr + b_index;
+           master_address = S_dest_addr + b_index;
            master_writedata = nxt_data;
         end
         LOOP :  begin // We stay here for 1 cycle at most
