@@ -1,7 +1,6 @@
 //Module for calculating Res = A*B
 //Where A,B and C are 2 by 2 matrices.
 module dnn_master (input logic clk, input logic rst_n,
-<<<<<<< HEAD
                    /* dnn parameters */
                    input logic [31:0]  out_activ_addr,
                    input logic [31:0]  bias_v_addr,
@@ -27,7 +26,6 @@ module dnn_master (input logic clk, input logic rst_n,
    // logic [31:0]                        out_activ;
    // logic [31:0]                        activ_len;
    // logic [31:0]                        relu;
-=======
 /* dnn parameters */
   input logic [31:0] out_activ_addr, 
   input logic [31:0] bias_v_addr,
@@ -93,7 +91,6 @@ module dnn_master (input logic clk, input logic rst_n,
           Res = {Res1[0][0],Res1[0][1],Res1[1][0],Res1[1][1]};            
         end 
    /* CL ^^^^^^^^^^^^^^^^^^^^^ */
->>>>>>> 9d6f665... added pt3
 
    // states
    localparam RESET = 4'd0 ;
@@ -106,7 +103,6 @@ module dnn_master (input logic clk, input logic rst_n,
    reg [3:0]                          st;
    reg [3:0]                          nst;
 
-<<<<<<< HEAD
    // used for states which may be called from multiple states
    logic [3:0]                        ret_st;
    logic [31:0]                       rdata;
@@ -119,13 +115,11 @@ module dnn_master (input logic clk, input logic rst_n,
    logic [31:0]                        S_out_activ_addr;
    logic [31:0]                        S_activ_len;
    logic [31:0]                        S_relu;
-=======
    logic [31:0]                         copied_vars;
    logic [31:0]                         nxt_data;
    logic [31:0]                         b_index;
 
    /* snapshots of latest inputs, as they are subject to change throughout copyin */
->>>>>>> 9d6f665... added pt3
 
    /* state transition combinational logic */
    always@(*) begin
@@ -135,7 +129,6 @@ module dnn_master (input logic clk, input logic rst_n,
          case (st)
            RESET :  nst = enable == 1 ? START : RESET ;
            START :  nst = READ;
-<<<<<<< HEAD
 
            // final state , write output activation
            WRITE :  nst = master_waitrequest ? WRITE : RESET;
@@ -144,12 +137,6 @@ module dnn_master (input logic clk, input logic rst_n,
            READ :   nst = master_waitrequest ? READ : WAITV; /* wait until waitrequest goes down */
            WAITV :  nst = master_readdatavalid ? STORE : WAITV ;
            STORE :  nst =  ret_st ; // Stores read data into data var
-=======
-            READ :  nst = master_waitrequest ? READ : WAITV; /* wait until waitrequest goes down */
-           WAITV :  nst = master_readdatavalid ? WRITE : WAITV ;
-            STORE :  nst = copied_vars >= S_num_words ? FINISH : READ ;
-            FINISH :  nst = RESET:
->>>>>>> 9d6f665... added pt3
            default : nst = st;
          endcase
       end
@@ -160,7 +147,6 @@ module dnn_master (input logic clk, input logic rst_n,
       st <= nst;
    end
 
-<<<<<<< HEAD
    logic [31:0] i;
 
    /*  logic  */
@@ -186,66 +172,13 @@ module dnn_master (input logic clk, input logic rst_n,
            S_relu= relu;
         end
         READ  :  begin
-=======
-   logic saved;
-   /*  logic  */
-   always @(posedge clk) begin
-      // unless specified in a state, we are not writing or reading 
-      master_read = 0;
-      master_write = 0;
-
-      case (nst)
-        RESET : begin
-          saved = 0;
-           operating = 0;
-           copied_vars = 0;
-           b_index = 0;
-        end
-        /* snapshot of inputs and assert we are operating */
-        START : begin
-             operating = 1;
-             S_out_activ_addr = out_activ_addr ; 
-             S_bias_v_addr= bias_v_addr;
-             S_weight_m_addr= weight_m_addr;
-             S_activ_addr= activ_addr;
-             S_out_activ_addr= out_activ_addr;
-             S_activ_len= activ_len;
-             S_relu= relu;
-           end
-        READ  :  begin 
->>>>>>> 9d6f665... added pt3
-           master_read = 1;
-           master_address = S_src_addr + b_index ;
-        end
-        STORE :  begin // We stay here for 1 cycle at most
-           nxt_data = master_readdata;
-           master_write = 1;
-
-           // TODO
-           master_address = S_dest_addr + b_index;
-
-<<<<<<< HEAD
            // loop
-=======
            // loop 
->>>>>>> 9d6f665... added pt3
-           copied_vars = copied_vars + 1;
-           b_index = b_index + 4;
-        end
-        WRITE :  begin // Write the NN CL output now that we have updated all
-<<<<<<< HEAD
+           // loop 
            // its input variables
            master_write = 1;
            master_address =
            master_writedata =
-=======
-        // its input variables
-           master_write = 1;
-           master_address = S_dest_addr + b_index;
-           master_writedata = nxt_data;
-           copied_vars = copied_vars + 1;
-           b_index = b_index + 4;
->>>>>>> 9d6f665... added pt3
         end
         default: ;
       endcase
