@@ -124,9 +124,9 @@ module dnn(
              32'h7 : slave_readdata = relu ;
            endcase
         end
-   ISSUEC: begin
-      enable = 1;
-   end
+        ISSUEC: begin
+           enable = 1;
+        end
         FINISH: begin
            inflight = 0;
         end

@@ -68,7 +68,7 @@ module tb_dnn();
 
       // Write the four variables
 
-      // write src address test
+      // biasvector addr
       @(posedge clk);
       slave_address = 4'h1;
       slave_write = 1;
@@ -85,7 +85,7 @@ module tb_dnn();
          $display("Did not get wait request at %5tps", $time);
       end
 
-      // write dest address
+      // write w matrix addr
       @(posedge clk);
       slave_address = 4'h2;
       slave_write = 1;
@@ -102,11 +102,11 @@ module tb_dnn();
          $display("Did not get wait request at %5tps", $time);
       end
 
-      // write num words to copy here
+      // write activations addr
       @(posedge clk);
       slave_address = 4'h3;
       slave_write = 1;
-      slave_writedata = 32'h00000100;
+      slave_writedata = 32'hCCCCC100;
       #(`CLK*1);
       // adhere to wait request
       if ( slave_waitrequest ) begin
@@ -119,53 +119,34 @@ module tb_dnn();
          $display("Did not get wait request at %5tps", $time);
       end
 
-      // read variables test
-
-      // read src address test
-      @(posedge clk);
-      slave_address = 4'h1;
-      slave_read = 1;
-      #(`CLK*1);
-      // adhere to wait request
-      if ( slave_waitrequest ) begin
-         @(negedge slave_waitrequest);
-         @(posedge clk);
-         equal(32'hAAAA1110 , slave_readdata, 2);
-         slave_read = 0;
-         #(`CLK*1);
-      end else begin
-         err = 1;
-         $display("Did not get wait request at %5tps", $time);
-      end
-
-      // read dest address
-      @(posedge clk);
-      slave_address = 4'h2;
-      slave_read = 1;
-      #(`CLK*1);
-      // adhere to wait request
-      if ( slave_waitrequest ) begin
-         @(negedge slave_waitrequest);
-         @(posedge clk);
-         equal(32'hBBBB2220 , slave_readdata, 2);
-         slave_read = 0;
-         #(`CLK*1);
-      end else begin
-         err = 1;
-         $display("Did not get wait request at %5tps", $time);
-      end
-
-      // read num words to copy here
+      // output activations addr
       @(posedge clk);
       slave_address = 4'h3;
-      slave_read = 1;
+      slave_write = 1;
+      slave_writedata = 32'hDDDDD100;
       #(`CLK*1);
       // adhere to wait request
       if ( slave_waitrequest ) begin
          @(negedge slave_waitrequest);
          @(posedge clk);
-         equal(32'h00000100 , slave_readdata, 2);
-         slave_read = 0;
+         slave_write = 0;
+         #(`CLK*1);
+      end else begin
+         err = 1;
+         $display("Did not get wait request at %5tps", $time);
+      end
+
+      // write in activat len
+      @(posedge clk);
+      slave_address = 4'h3;
+      slave_write = 1;
+      slave_writedata = 32'h00000010;
+      #(`CLK*1);
+      // adhere to wait request
+      if ( slave_waitrequest ) begin
+         @(negedge slave_waitrequest);
+         @(posedge clk);
+         slave_write = 0;
          #(`CLK*1);
       end else begin
          err = 1;
