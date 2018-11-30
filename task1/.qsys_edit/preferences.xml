@@ -3,14 +3,14 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="175" />
+   <connections preferredWidth="191" />
    <irq preferredWidth="34" />
    <name preferredWidth="294" />
    <inputclock preferredWidth="201" />
   </columns>
  </systemtable>
  <library
-   expandedCategories="Library/Interface Protocols/PCI Express,Library/Interface Protocols/PCI Express/QSYS Example Designs,Library/Interface Protocols,Library/Processors and Peripherals,Library/Processors and Peripherals/Peripherals,Project,Library" />
- <window width="2304" height="1266" x="0" y="30" />
- <generation simulation="NONE" path="" />
+   expandedCategories="Project,Library/University Program,Library,Library/Memory Interfaces and Controllers,Library/Low Power,Library/Tri-State Components" />
+ <window width="2304" height="1328" x="0" y="30" />
+ <generation simulation="VERILOG" path="_PROJECT_NAME_" />
 </preferences>
