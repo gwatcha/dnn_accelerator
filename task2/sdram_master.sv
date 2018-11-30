@@ -16,6 +16,7 @@ module sdram_master(input logic         clk, input logic rst_n,
    localparam START = 4'd1 ;
    localparam READ  = 4'd2 ;
    localparam WAITV = 4'd3 ;
+   localparam STORE = 4'd6 ;
    localparam WRITE = 4'd4 ;
    localparam LOOP  = 4'd5 ;
 
@@ -23,9 +24,9 @@ module sdram_master(input logic         clk, input logic rst_n,
    reg [3:0]                            st;
    reg [3:0]                            nst;
 
-   logic [31:0]                         copied_words;
-   logic [31:0]                         nxt_data;
-   logic [31:0]                         b_index;
+   reg   [31:0]                         copied_words;
+   reg   [31:0]                         nxt_data;
+   reg [31:0]                         b_index;
 
    /* snapshots of latest inputs, as they are subject to change throughout copyin */
    reg [31:0]                           S_dest_addr, S_src_addr, S_num_words ;
@@ -33,13 +34,32 @@ module sdram_master(input logic         clk, input logic rst_n,
    /* state transition combinational logic */
    always@(*) begin
       case (st)
-        LISTEN :  nst = enable == 1 ? START : LISTEN ;
+        LISTEN :  nst = enable === 1 ? START : LISTEN ;
         START :  nst = READ ;
         READ :  nst = master_waitrequest ? READ : WAITV; /* wait until waitrequest goes down */
-        WAITV :  nst = master_readdatavalid ? WRITE : WAITV ;
+        WAITV :  nst = ( 1 === master_readdatavalid ) ? STORE : WAITV ;
+        STORE :  nst = WRITE;
         WRITE :  nst = master_waitrequest ? WRITE : LOOP;
         LOOP :  nst = copied_words >= S_num_words ? LISTEN : READ ;
         default : nst = st;
+      endcase
+   end
+
+   // a despserate try at a fix
+   always@(*) begin
+      case (st)
+        READ : begin
+           master_read = 1;
+           master_write = 0;
+        end
+        WRITE :  begin
+           master_write = 1;
+           master_read = 0;
+        end
+        default : begin
+           master_write = 0;
+           master_read = 0;
+        end
       endcase
    end
 
@@ -48,11 +68,10 @@ module sdram_master(input logic         clk, input logic rst_n,
       st <= ~rst_n ? LISTEN : nst;
    end
 
+
    /*  logic, mostly registers  */
    always @(posedge clk, negedge rst_n) begin
       if (~rst_n) begin
-         master_read = 0;
-         master_write = 0;
          copied_words = 0;
          b_index = 0;
          copying = 0;
@@ -63,8 +82,6 @@ module sdram_master(input logic         clk, input logic rst_n,
       end else begin
          // unless specified in a state, we are not writing or reading and we are in
          // the copying process
-         master_read = 0;
-         master_write = 0;
 
          case (nst)
            LISTEN : begin
@@ -79,12 +96,12 @@ module sdram_master(input logic         clk, input logic rst_n,
               S_num_words = num_words;
            end
            READ  :  begin
-              master_read = 1;
               master_address = S_src_addr + b_index ;
            end
-           WRITE : begin
+           STORE  :  begin
               nxt_data = master_readdata;
-              master_write = 1;
+           end
+           WRITE : begin
               master_address = S_dest_addr + b_index;
               master_writedata = nxt_data;
            end
@@ -92,7 +109,6 @@ module sdram_master(input logic         clk, input logic rst_n,
               copied_words = copied_words + 1;
               b_index = b_index + 4;
            end
-           default: ;
          endcase
       end
    end

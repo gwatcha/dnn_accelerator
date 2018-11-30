@@ -65,9 +65,9 @@ module wordcopy(input logic clk, input logic rst_n,
            end
            WRIVAR: nst = FINISH;
            REAVAR: nst = FINISH;
-           CPYWAW: nst = copying == 1 ? CPYWAW : ISSUEC ;
+           CPYWAW: nst = copying === 1 ? CPYWAW : ISSUEC ;
            ISSUEC: nst = FINISH;
-           CPYWAR: nst = copying == 1 ? CPYWAR : FINISH ;
+           CPYWAR: nst = copying === 1 ? CPYWAR : FINISH ;
            FINISH: nst = ( 1 === (slave_read | slave_write )) ? FINISH : LISTEN;
            default : nst = st;
          endcase
@@ -75,19 +75,19 @@ module wordcopy(input logic clk, input logic rst_n,
    end
 
    // if we are in a listening state, wait request follows listen | wait
-   logic inflight;
    always @ (*) begin
-      if (st == LISTEN) begin
+      if (st === LISTEN) begin
          slave_waitrequest = ( ( slave_read | slave_write ) === 1 ) ? 1 : 0;
+      end else if (st === FINISH) begin
+         slave_waitrequest = 0;
       end else begin
-         slave_waitrequest = inflight;
+        slave_waitrequest = 1;
       end
    end
 
    /* logic  */
    always@(posedge clk, negedge rst_n) begin
       if (~rst_n) begin
-         inflight = 0;
          enable = 0;
          dest_addr = 0;
          src_addr  = 0;
@@ -96,12 +96,8 @@ module wordcopy(input logic clk, input logic rst_n,
       end else begin
          // unless specified in a state, we are not writing or reading and we are in
          // defaults
-         inflight = 1;
          enable = 0;
          case (nst)
-           LISTEN: begin
-              inflight = ( 1 === ( slave_read | slave_write ) ) ? 1 : 0;
-           end
            WRIVAR: begin
               dest_addr = slave_address == 1 ? slave_writedata : dest_addr;
               src_addr  = slave_address == 2 ? slave_writedata : src_addr;
@@ -117,7 +113,7 @@ module wordcopy(input logic clk, input logic rst_n,
               enable = 1;
            end
            FINISH: begin
-              inflight = 0;
+             enable= 0;
            end
            default: ;
          endcase

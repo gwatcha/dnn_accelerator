@@ -85,8 +85,11 @@ void main() {
     /* apply_layer_acc(L3_IN, L3_OUT, l3_b, l3_w, 0, l2_acts, l3_acts); */
     /* /\* *\\/ *\/ */
     /* int result = max_index(L3_OUT, l3_acts); */
-    volatile int * src = nn;
-    volatile int * dest= input;
+    volatile int * src = nn ;
+    volatile int * dest= l3_acts ;
+
+    src ;
+    dest ;
 
     for (int i = 0; i < 255; i++) {
       *( src+i) = i;
