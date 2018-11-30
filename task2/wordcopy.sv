@@ -44,8 +44,8 @@ module wordcopy(input logic clk, input logic rst_n,
    logic [3:0]                      nst;
 
    /* state block */
-   always @(posedge clk) begin
-      st = nst;
+   always @(posedge clk, negedge rst_n) begin
+      st = ~rst_n ? LISTEN : nst;
    end
 
    /* state transition logic */
@@ -60,7 +60,7 @@ module wordcopy(input logic clk, input logic rst_n,
               end else if ( slave_read === 1 ) begin
                  nst = slave_address == 4'd0 ? CPYWAR : REAVAR ;
               end else begin
-                nst = LISTEN;
+                 nst = LISTEN;
               end
            end
            WRIVAR: nst = FINISH;
@@ -85,32 +85,42 @@ module wordcopy(input logic clk, input logic rst_n,
    end
 
    /* logic  */
-   always@(posedge clk) begin
-      // defaults
-      inflight = 1;
-      enable = 0;
-      case (nst)
-        LISTEN: begin
-           inflight = ( 1 === ( slave_read | slave_write ) ) ? 1 : 0;
-        end
-        WRIVAR: begin
-           dest_addr = slave_address == 1 ? slave_writedata : dest_addr;
-           src_addr  = slave_address == 2 ? slave_writedata : src_addr;
-           num_words = slave_address == 3 ? slave_writedata : num_words;
-        end
-        REAVAR: begin
-           slave_readdata =
-                           slave_address == 1 ? dest_addr :
-                           slave_address == 2 ? src_addr  :
-                           slave_address == 3 ? num_words : 32'b0;
-        end
-        ISSUEC: begin
-           enable = 1;
-        end
-        FINISH: begin
-           inflight = 0;
-        end
-        default: ;
-      endcase
+   always@(posedge clk, negedge rst_n) begin
+      if (~rst_n) begin
+         inflight = 0;
+         enable = 0;
+         dest_addr = 0;
+         src_addr  = 0;
+         num_words = 0;
+         slave_readdata = 32'hDEADBEEF;
+      end else begin
+         // unless specified in a state, we are not writing or reading and we are in
+         // defaults
+         inflight = 1;
+         enable = 0;
+         case (nst)
+           LISTEN: begin
+              inflight = ( 1 === ( slave_read | slave_write ) ) ? 1 : 0;
+           end
+           WRIVAR: begin
+              dest_addr = slave_address == 1 ? slave_writedata : dest_addr;
+              src_addr  = slave_address == 2 ? slave_writedata : src_addr;
+              num_words = slave_address == 3 ? slave_writedata : num_words;
+           end
+           REAVAR: begin
+              slave_readdata =
+                              slave_address == 1 ? dest_addr :
+                              slave_address == 2 ? src_addr  :
+                              slave_address == 3 ? num_words : 32'b0;
+           end
+           ISSUEC: begin
+              enable = 1;
+           end
+           FINISH: begin
+              inflight = 0;
+           end
+           default: ;
+         endcase
+      end
    end
 endmodule: wordcopy

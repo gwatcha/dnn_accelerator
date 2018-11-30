@@ -1,6 +1,6 @@
 module tb_dnn();
    /* Definitions */
-  `define CLK 5 /* Length of full clk cycle */
+`define CLK 5 /* Length of full clk cycle */
 
    /* Sim wires */
    logic err = 0; /* Goes high on test fail. */
@@ -48,9 +48,9 @@ module tb_dnn();
       end
    end
 
-      /*                       0        CLK1      CLK2
-        Cycles look like this: v        v         v
-                              _|****|____|****|____|****|        */
+   /*                       0        CLK1      CLK2
+    Cycles look like this: v        v         v
+    _|****|____|****|____|****|        */
 
    /* ------------------TESTING BEGIN ---------------------- */
    initial begin

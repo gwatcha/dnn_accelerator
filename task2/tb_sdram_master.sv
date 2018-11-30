@@ -1,6 +1,6 @@
 module tb_sdram_master();
    /* Definitions */
-  `define CLK 5 /* Length of full clk cycle */
+`define CLK 10 /* Length of full clk cycle */
 
    /* Sim wires */
    logic err = 0; /* Goes high on test fail. */
@@ -49,14 +49,13 @@ module tb_sdram_master();
 
    /*                       0        CLK1      CLK2
     Cycles look like this: v        v         v
-                          _|****|____|****|____|****|        */
+    _|****|____|****|____|****|        */
 
    /* ------------------TESTING BEGIN ---------------------- */
    initial begin
       // default values
       master_waitrequest = 0;
       master_readdatavalid = 0;
-      master_readdata = 32'hFEFEFEFE;
 
       // Test 1, 2 word
       dest_addr = 32'h2222DDD0;
@@ -70,14 +69,13 @@ module tb_sdram_master();
       rst_n = 1'b1;
 
       // emulate a wait request
-      wait ( master_read | master_write);
+      @ (posedge( master_read | master_write));
       master_waitrequest = 1;
       enable = 0;
-      wait (clk == 0);
-      wait (clk == 1);
+      @( posedge clk );
       #(`CLK*5);
       master_waitrequest = 0;
-      #(`CLK*1);
+      #(`CLK*2);
       equal(( master_read | master_write ), 0, 0);
 
       // emulate a readdata valid delay
@@ -85,45 +83,122 @@ module tb_sdram_master();
       #(`CLK*5);
       master_readdatavalid = 1;
       master_readdata = 32'hCEECBEEF;
-      wait ( master_read | master_write);
+      @(posedge( ( master_read | master_write)));
       master_readdatavalid = 0;
 
       // should be getting write request now
       equal(master_write, 1 , 1 );
       equal(master_writedata, 32'hceecbeef, 2);
       master_waitrequest = 1;
-      #(`CLK*1);
+      #(`CLK*10);
+      master_waitrequest = 0;
 
       // next cycle
 
+      @(posedge ( master_read | master_write));
       // emulate a wait request
-      wait ( master_read | master_write);
       master_waitrequest = 1;
       enable = 0;
-      wait (clk == 0);
-      wait (clk == 1);
+      @(posedge( (clk )));
       #(`CLK*1);
       master_waitrequest = 0;
-      #(`CLK*1);
+      #(`CLK*2);
       equal(( master_read | master_write ), 0, 0);
 
       // emulate a readdata valid delay
       master_readdatavalid = 0;
+      $display("Hello?");
       #(`CLK*1);
       master_readdatavalid = 1;
-      master_readdata = 32'hCEECBEEF;
-      wait ( master_read | master_write);
+      $display("Hello?");
+      master_readdata = 32'hCEEAAAAA;
+
+        @(posedge ( master_read | master_write));
+      master_readdata = 32'hx;
       master_readdatavalid = 0;
       // should be getting write request now
-      equal(master_writedata, 32'hceecbeef, 2);
+      equal(master_writedata, 32'hCEEAAAAA, 2);
       master_waitrequest = 1;
+      $display("Hello?");
       #(`CLK*30);
       master_waitrequest = 0;
       enable = 0;
+      #(`CLK*2);
+      equal(( master_read | master_write ), 0, 0);
+      #(`CLK*10);
+
+      // default values
+      master_waitrequest = 0;
+      master_readdatavalid = 0;
+
+      // Test 1, 2 word
+      dest_addr = 32'h2222DDD0;
+      src_addr = 32'h11110000;
+      num_words = 32'h00000002;
+
+      // Reset sequence
+      rst_n = 1'b0;
       #(`CLK*1);
+      enable = 1;
+      rst_n = 1'b1;
+
+      // emulate a wait request
+      @ (posedge( master_read | master_write));
+      master_waitrequest = 1;
+      enable = 0;
+      @( posedge clk );
+      #(`CLK*5);
+      master_waitrequest = 0;
+      #(`CLK*2);
       equal(( master_read | master_write ), 0, 0);
 
+      // emulate a readdata valid delay
+      master_readdatavalid = 0;
+      #(`CLK*5);
+      master_readdatavalid = 1;
+      master_readdata = 32'hCEECBEEF;
+      @(posedge( ( master_read | master_write)));
+      master_readdatavalid = 0;
 
+      // should be getting write request now
+      equal(master_write, 1 , 1 );
+      equal(master_writedata, 32'hceecbeef, 2);
+      master_waitrequest = 1;
+      #(`CLK*10);
+      master_waitrequest = 0;
+
+      // next cycle
+
+      @(posedge ( master_read | master_write));
+      // emulate a wait request
+      master_waitrequest = 1;
+      enable = 0;
+      @(posedge( (clk )));
+      #(`CLK*1);
+      master_waitrequest = 0;
+      #(`CLK*2);
+      equal(( master_read | master_write ), 0, 0);
+
+      // emulate a readdata valid delay
+      master_readdatavalid = 0;
+      $display("Hello?");
+      #(`CLK*1);
+      master_readdatavalid = 1;
+      $display("Hello?");
+      master_readdata = 32'hCEEAAAAA;
+
+        @(posedge ( master_read | master_write));
+      master_readdata = 32'hx;
+      master_readdatavalid = 0;
+      // should be getting write request now
+      equal(master_writedata, 32'hCEEAAAAA, 2);
+      master_waitrequest = 1;
+      $display("Hello?");
+      #(`CLK*30);
+      master_waitrequest = 0;
+      enable = 0;
+      #(`CLK*2);
+      equal(( master_read | master_write ), 0, 0);
       #(`CLK*10);
 
       if (err === 0) begin

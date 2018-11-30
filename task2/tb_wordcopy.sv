@@ -1,6 +1,6 @@
 module tb_wordcopy();
    /* Definitions */
-  `define CLK 5 /* Length of full clk cycle */
+  `define CLK 10 /* Length of full clk cycle */
 
    /* Sim wires */
    logic err = 0; /* Goes high on test fail. */
