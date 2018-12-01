@@ -6,11 +6,11 @@
    <connections preferredWidth="191" />
    <irq preferredWidth="34" />
    <name preferredWidth="294" />
-   <inputclock preferredWidth="201" />
+   <inputclock preferredWidth="119" />
   </columns>
  </systemtable>
  <library
-   expandedCategories="Project,Library/University Program,Library,Library/Memory Interfaces and Controllers,Library/Low Power,Library/Tri-State Components" />
- <window width="2304" height="1328" x="0" y="30" />
+   expandedCategories="Project,Library/Basic Functions/Simulation; Debug and Verification,Library/Basic Functions/Bridges and Adaptors,Library/Basic Functions,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Library/Interface Protocols/JESD,Library/Interface Protocols,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Interface Protocols/Serial,Library/Basic Functions/Configuration and Programming,Library" />
+ <window width="2304" height="1328" x="1536" y="832" />
  <generation simulation="VERILOG" path="_PROJECT_NAME_" />
 </preferences>
