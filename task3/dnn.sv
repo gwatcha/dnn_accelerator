@@ -26,7 +26,6 @@ module dnn(
    /* this module handles the master interface and the actual copying */
    dnn_master master(.clk(clk), .rst_n(rst_n),
                      /* dnn parameters */
-                     .out_activ_addr( out_activ_addr[31:0] ),
                      .bias_v_addr(bias_v_addr[31:0] ),
                      .weight_m_addr( weight_m_addr[31:0] ),
                      .activ_addr( activ_addr[31:0] ),
@@ -34,7 +33,7 @@ module dnn(
                      .activ_len( activ_len[31:0] ),
                      .relu( relu[31:0] ),
                      /* control */
-                     .operation( operation ), .enable(enable),
+                     .operating( operating ), .enable(enable),
                      /* used only by this module */
                      .master_waitrequest( master_waitrequest ),
                      .master_address( master_address[31:0] ),

@@ -75,14 +75,34 @@ void main() {
     volatile int *l3_b = l2_w + L2_IN * L2_OUT; /* layer 3 bias */
     volatile int *l3_w = l3_b + L3_OUT;         /* layer 3 weights */
 
-    apply_layer(L1_IN, L1_OUT, l1_b, l1_w, 1, input, l1_acts);
-    apply_layer(L2_IN, L2_OUT, l2_b, l2_w, 1, l1_acts, l2_acts);
-    apply_layer(L3_IN, L3_OUT, l3_b, l3_w, 0, l2_acts, l3_acts);
-    /*
+    /* apply_layer(L1_IN, L1_OUT, l1_b, l1_w, 1, input, l1_acts); */
+    /* apply_layer(L2_IN, L2_OUT, l2_b, l2_w, 1, l1_acts, l2_acts); */
+    /* apply_layer(L3_IN, L3_OUT, l3_b, l3_w, 0, l2_acts, l3_acts); */
+
+
+    /* *l1_acts     = 5; */
+    /* *( l1_acts + 1 ) = 3; */
+    /* *( l1_acts + 2 ) = 10; */
+    /* *( l1_acts + 3 ) = 10; */
+
+    /* /\* test one write and read *\/ */
+    /* *(dnn_acc + 1) = (unsigned) l1_acts + 0; */
+    /* *(dnn_acc + 2) = (unsigned) l1_acts + 4; */
+    /* *(dnn_acc + 3) = (unsigned) l1_acts + 8; */
+    /* *(dnn_acc + 4) = (unsigned) l1_acts + 12; */
+    /* *(dnn_acc + 5) = (unsigned) 1; */
+    /* *(dnn_acc + 7) = (unsigned) 0; */
+
+    /* hex7seg(*(dnn_acc + 1)); */
+    /* hex7seg(*(dnn_acc + 2)); */
+    /* hex7seg(*(dnn_acc + 3)); */
+
+    /* *dnn_acc = 0; /\* start *\/ */
+    /* *dnn_acc; /\* make sure the accelerator is finished *\/ */
+
     apply_layer_acc(L1_IN, L1_OUT, l1_b, l1_w, 1, input, l1_acts);
     apply_layer_acc(L2_IN, L2_OUT, l2_b, l2_w, 1, l1_acts, l2_acts);
     apply_layer_acc(L3_IN, L3_OUT, l3_b, l3_w, 0, l2_acts, l3_acts);
-    */
     int result = max_index(L3_OUT, l3_acts);
     *hex = hex7seg(result);
     return;
