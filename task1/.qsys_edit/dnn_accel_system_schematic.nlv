@@ -1,25 +1,26 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
+preplace inst dnn_accel_system.mem_cpy_accel_0 -pg 1 -lvl 3 -y 310
 preplace inst dnn_accel_system.jtag_uart_0 -pg 1 -lvl 2 -y 130
 preplace inst dnn_accel_system.nios2_gen2_0.cpu -pg 1
 preplace inst dnn_accel_system.new_sdram_controller_0 -pg 1 -lvl 2 -y 230
-preplace inst dnn_accel_system.pll_0 -pg 1 -lvl 2 -y 350
+preplace inst dnn_accel_system.pll_0 -pg 1 -lvl 2 -y 390
 preplace inst dnn_accel_system.nios2_gen2_0.reset_bridge -pg 1
 preplace inst dnn_accel_system -pg 1 -lvl 1 -y 40 -regy -20
 preplace inst dnn_accel_system.nios2_gen2_0 -pg 1 -lvl 1 -y 120
 preplace inst dnn_accel_system.pio_0 -pg 1 -lvl 2 -y 30
-preplace inst dnn_accel_system.clk_0 -pg 1 -lvl 1 -y 370
+preplace inst dnn_accel_system.clk_0 -pg 1 -lvl 1 -y 410
 preplace inst dnn_accel_system.nios2_gen2_0.clock_bridge -pg 1
-preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(MASTER)dnn_accel_system.sdram_clk,(MASTER)pll_0.outclk1) 1 2 1 N
-preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)pio_0.external_connection,(SLAVE)dnn_accel_system.hex) 1 0 2 NJ 60 NJ
-preplace netloc INTERCONNECT<net_container>dnn_accel_system</net_container>(SLAVE)nios2_gen2_0.debug_mem_slave,(SLAVE)pio_0.s1,(MASTER)nios2_gen2_0.data_master,(SLAVE)new_sdram_controller_0.s1,(MASTER)nios2_gen2_0.instruction_master,(SLAVE)jtag_uart_0.avalon_jtag_slave) 1 0 2 130 80 490
-preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)clk_0.clk_in,(SLAVE)dnn_accel_system.clk) 1 0 1 NJ
-preplace netloc INTERCONNECT<net_container>dnn_accel_system</net_container>(MASTER)nios2_gen2_0.debug_reset_request,(SLAVE)pio_0.reset,(SLAVE)pll_0.reset,(SLAVE)nios2_gen2_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)new_sdram_controller_0.reset,(SLAVE)jtag_uart_0.reset) 1 0 2 130 260 510
-preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)pll_0.locked,(SLAVE)dnn_accel_system.pll_locked) 1 0 2 NJ 360 NJ
-preplace netloc FAN_OUT<net_container>dnn_accel_system</net_container>(SLAVE)pio_0.clk,(SLAVE)new_sdram_controller_0.clk,(MASTER)pll_0.outclk0,(SLAVE)nios2_gen2_0.clk,(SLAVE)jtag_uart_0.clk) 1 0 3 110 40 530 340 770
-preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)dnn_accel_system.sdram,(SLAVE)new_sdram_controller_0.wire) 1 0 2 NJ 300 NJ
+preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(MASTER)dnn_accel_system.sdram_clk,(MASTER)pll_0.outclk1) 1 2 2 NJ 420 NJ
+preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)dnn_accel_system.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)dnn_accel_system.hex,(SLAVE)pio_0.external_connection) 1 0 2 NJ 60 NJ
+preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)pll_0.locked,(SLAVE)dnn_accel_system.pll_locked) 1 0 2 NJ 400 NJ
+preplace netloc FAN_OUT<net_container>dnn_accel_system</net_container>(SLAVE)nios2_gen2_0.clk,(MASTER)pll_0.outclk0,(SLAVE)pio_0.clk,(SLAVE)new_sdram_controller_0.clk,(SLAVE)jtag_uart_0.clk,(SLAVE)mem_cpy_accel_0.clock) 1 0 3 110 280 570 340 830
+preplace netloc POINT_TO_POINT<net_container>dnn_accel_system</net_container>(MASTER)clk_0.clk,(SLAVE)pll_0.refclk) 1 1 1 N
 preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)dnn_accel_system.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
-preplace netloc POINT_TO_POINT<net_container>dnn_accel_system</net_container>(SLAVE)pll_0.refclk,(MASTER)clk_0.clk) 1 1 1 N
+preplace netloc INTERCONNECT<net_container>dnn_accel_system</net_container>(SLAVE)mem_cpy_accel_0.reset,(SLAVE)jtag_uart_0.reset,(SLAVE)nios2_gen2_0.reset,(MASTER)nios2_gen2_0.debug_reset_request,(SLAVE)new_sdram_controller_0.reset,(SLAVE)pio_0.reset,(SLAVE)pll_0.reset,(MASTER)clk_0.clk_reset) 1 0 3 130 300 530 380 850
+preplace netloc EXPORT<net_container>dnn_accel_system</net_container>(SLAVE)new_sdram_controller_0.wire,(SLAVE)dnn_accel_system.sdram) 1 0 2 NJ 320 NJ
+preplace netloc INTERCONNECT<net_container>dnn_accel_system</net_container>(MASTER)nios2_gen2_0.instruction_master,(MASTER)nios2_gen2_0.data_master,(SLAVE)new_sdram_controller_0.s1,(SLAVE)pio_0.s1,(SLAVE)mem_cpy_accel_0.slave,(MASTER)mem_cpy_accel_0.avalon_master,(SLAVE)jtag_uart_0.avalon_jtag_slave,(SLAVE)nios2_gen2_0.debug_mem_slave) 1 0 4 150 260 510 360 810 300 1040
 preplace netloc POINT_TO_POINT<net_container>dnn_accel_system</net_container>(MASTER)nios2_gen2_0.irq,(SLAVE)jtag_uart_0.irq) 1 1 1 550
-levelinfo -pg 1 0 80 880
-levelinfo -hier dnn_accel_system 90 250 620 790
+levelinfo -pg 1 0 80 1150
+levelinfo -hier dnn_accel_system 90 270 660 880 1060

@@ -17,6 +17,67 @@
          type = "int";
       }
    }
+   element dnn_accel_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element dnn_accel_0.slave
+   {
+      datum _lockedAddress
+      {
+         value = "0";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "4224";
+         type = "String";
+      }
+   }
+   element dnn_accel_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element dnn_accel_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element dnn_accel_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element dnn_accel_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element dnn_accel_system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
    element jtag_uart_0
    {
       datum _sortIndex
@@ -42,7 +103,7 @@
    {
       datum _sortIndex
       {
-         value = "6";
+         value = "7";
          type = "int";
       }
    }
@@ -50,7 +111,7 @@
    {
       datum _lockedAddress
       {
-         value = "1";
+         value = "0";
          type = "boolean";
       }
       datum baseAddress
@@ -176,6 +237,7 @@
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
+ <module name="dnn_accel_0" kind="dnn_accel" version="1.0" enabled="1" />
  <module
    name="jtag_uart_0"
    kind="altera_avalon_jtag_uart"
@@ -249,7 +311,7 @@
   <parameter name="dataAddrWidth" value="28" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='nios2_gen2_0.debug_mem_slave' start='0x800' end='0x1000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1000' end='0x1008' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='pio_0.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='mem_cpy_accel_0.slave' start='0x1040' end='0x1080' type='mem_cpy_accel.slave' /><slave name='new_sdram_controller_0.s1' start='0x8000000' end='0xC000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='nios2_gen2_0.debug_mem_slave' start='0x800' end='0x1000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1000' end='0x1008' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='pio_0.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /><slave name='mem_cpy_accel_0.slave' start='0x1040' end='0x1080' type='mem_cpy_accel.slave' /><slave name='dnn_accel_0.slave' start='0x1080' end='0x10C0' type='dnn_accel.slave' /><slave name='new_sdram_controller_0.s1' start='0x8000000' end='0xC000000' type='altera_avalon_new_sdram_controller.s1' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -627,6 +689,15 @@
  <connection
    kind="avalon"
    version="17.1"
+   start="dnn_accel_0.avalon_master"
+   end="new_sdram_controller_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x08000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.1"
    start="mem_cpy_accel_0.avalon_master"
    end="new_sdram_controller_0.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -667,6 +738,15 @@
    end="new_sdram_controller_0.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x08000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="17.1"
+   start="nios2_gen2_0.data_master"
+   end="dnn_accel_0.slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x1080" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -719,6 +799,11 @@
    start="pll_0.outclk0"
    end="mem_cpy_accel_0.clock" />
  <connection
+   kind="clock"
+   version="17.1"
+   start="pll_0.outclk0"
+   end="dnn_accel_0.clock" />
+ <connection
    kind="interrupt"
    version="17.1"
    start="nios2_gen2_0.irq"
@@ -750,6 +835,11 @@
  <connection
    kind="reset"
    version="17.1"
+   start="clk_0.clk_reset"
+   end="dnn_accel_0.reset" />
+ <connection
+   kind="reset"
+   version="17.1"
    start="nios2_gen2_0.debug_reset_request"
    end="jtag_uart_0.reset" />
  <connection
@@ -766,12 +856,17 @@
    kind="reset"
    version="17.1"
    start="nios2_gen2_0.debug_reset_request"
+   end="pio_0.reset" />
+ <connection
+   kind="reset"
+   version="17.1"
+   start="nios2_gen2_0.debug_reset_request"
    end="mem_cpy_accel_0.reset" />
  <connection
    kind="reset"
    version="17.1"
    start="nios2_gen2_0.debug_reset_request"
-   end="pio_0.reset" />
+   end="dnn_accel_0.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

@@ -67,7 +67,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   </table>
   <table class="blueBar">
    <tr>
-    <td class="l">2018.11.29.23:00:21</td>
+    <td class="l">2018.12.02.11:45:21</td>
     <td class="r">Datasheet</td>
    </tr>
   </table>
@@ -91,6 +91,9 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
      </a> Nios II 17.1
      <br/>All Components
      <br/>&#160;&#160;
+     <a href="#module_dnn_accel_0"><b>dnn_accel_0</b>
+     </a> dnn_accel 1.0
+     <br/>&#160;&#160;
      <a href="#module_jtag_uart_0"><b>jtag_uart_0</b>
      </a> altera_avalon_jtag_uart 17.1
      <br/>&#160;&#160;
@@ -113,6 +116,10 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    <tr>
     <td class="empty" rowspan="2"></td>
     <td class="mastermodule" colspan="1">
+     <a href="#module_dnn_accel_0"><b>dnn_accel_0</b>
+     </a>
+    </td>
+    <td class="mastermodule" colspan="1">
      <a href="#module_mem_cpy_accel_0"><b>mem_cpy_accel_0</b>
      </a>
     </td>
@@ -123,8 +130,26 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
    </tr>
    <tr>
     <td class="masterlr">&#160;avalon_master</td>
+    <td class="masterlr">&#160;avalon_master</td>
     <td class="masterl">&#160;data_master</td>
     <td class="masterr">&#160;instruction_master</td>
+   </tr>
+   <tr>
+    <td class="slavemodule">&#160;
+     <a href="#module_dnn_accel_0"><b>dnn_accel_0</b>
+     </a>
+    </td>
+    <td class="empty"></td>
+    <td class="empty"></td>
+    <td class="empty"></td>
+    <td class="empty"></td>
+   </tr>
+   <tr>
+    <td class="slaveb">slave&#160;</td>
+    <td class="empty"></td>
+    <td class="empty"></td>
+    <td class="addr"><span style="color:#989898">0x</span>00001080</td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slavemodule">&#160;
@@ -134,9 +159,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="empty"></td>
     <td class="empty"></td>
     <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">avalon_jtag_slave&#160;</td>
+    <td class="empty"></td>
     <td class="empty"></td>
     <td class="addr"><span style="color:#989898">0x</span>00001000</td>
     <td class="empty"></td>
@@ -149,9 +176,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="empty"></td>
     <td class="empty"></td>
     <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">slave&#160;</td>
+    <td class="empty"></td>
     <td class="empty"></td>
     <td class="addr"><span style="color:#989898">0x</span>00001040</td>
     <td class="empty"></td>
@@ -164,9 +193,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="empty"></td>
     <td class="empty"></td>
     <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">s1&#160;</td>
+    <td class="addr"><span style="color:#989898">0x</span>08000000</td>
     <td class="addr"><span style="color:#989898">0x</span>08000000</td>
     <td class="addr"><span style="color:#989898">0x</span>08000000</td>
     <td class="addr"><span style="color:#989898">0x</span>08000000</td>
@@ -179,9 +210,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="empty"></td>
     <td class="empty"></td>
     <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">debug_mem_slave&#160;</td>
+    <td class="empty"></td>
     <td class="empty"></td>
     <td class="addr"><span style="color:#989898">0x</span>00000800</td>
     <td class="addr"><span style="color:#989898">0x</span>00000800</td>
@@ -194,9 +227,11 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <td class="empty"></td>
     <td class="empty"></td>
     <td class="empty"></td>
+    <td class="empty"></td>
    </tr>
    <tr>
     <td class="slaveb">s1&#160;</td>
+    <td class="empty"></td>
     <td class="empty"></td>
     <td class="addr"><span style="color:#989898">0x</span>00001010</td>
     <td class="empty"></td>
@@ -230,6 +265,94 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
         <td class="parametername">resetSynchronousEdges</td>
         <td class="parametervalue">NONE</td>
        </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
+  <a name="module_dnn_accel_0"> </a>
+  <div>
+   <hr/>
+   <h2>dnn_accel_0</h2>dnn_accel v1.0
+   <br/>
+   <div class="greydiv">
+    <table class="connectionboxes">
+     <tr>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_nios2_gen2_0">nios2_gen2_0</a>
+      </td>
+      <td class="from">data_master&#160;&#160;</td>
+      <td class="main" rowspan="12">dnn_accel_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;slave</td>
+     </tr>
+     <tr>
+      <td class="from">debug_reset_request&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_pll_0">pll_0</a>
+      </td>
+      <td class="from">outclk0&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;clock</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_clk_0">clk_0</a>
+      </td>
+      <td class="from">clk_reset&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">avalon_master&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_new_sdram_controller_0">new_sdram_controller_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;s1</td>
+     </tr>
+    </table>
+   </div>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
        <tr>
         <td class="parametername">deviceFamily</td>
         <td class="parametervalue">UNKNOWN</td>
@@ -510,10 +633,22 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
     <table class="connectionboxes">
      <tr>
       <td class="neighbor" rowspan="2">
+       <a href="#module_dnn_accel_0">dnn_accel_0</a>
+      </td>
+      <td class="from">avalon_master&#160;&#160;</td>
+      <td class="main" rowspan="18">new_sdram_controller_0</td>
+     </tr>
+     <tr>
+      <td class="to">&#160;&#160;s1</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td class="neighbor" rowspan="2">
        <a href="#module_mem_cpy_accel_0">mem_cpy_accel_0</a>
       </td>
       <td class="from">avalon_master&#160;&#160;</td>
-      <td class="main" rowspan="15">new_sdram_controller_0</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;s1</td>
@@ -813,7 +948,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        <a href="#module_pll_0">pll_0</a>
       </td>
       <td class="from">outclk0&#160;&#160;</td>
-      <td class="main" rowspan="28">nios2_gen2_0</td>
+      <td class="main" rowspan="33">nios2_gen2_0</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;clk</td>
@@ -914,6 +1049,32 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td></td>
       <td></td>
       <td class="to">&#160;&#160;s1</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">debug_reset_request&#160;&#160;</td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;reset</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">data_master&#160;&#160;</td>
+      <td class="neighbor" rowspan="4">
+       <a href="#module_dnn_accel_0">dnn_accel_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;slave</td>
      </tr>
      <tr>
       <td></td>
@@ -1650,7 +1811,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        </tr>
        <tr>
         <td class="parametername">dataSlaveMapParam</td>
-        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='nios2_gen2_0.debug_mem_slave' start='0x800' end='0x1000' type='altera_nios2_gen2.debug_mem_slave' /&gt;&lt;slave name='jtag_uart_0.avalon_jtag_slave' start='0x1000' end='0x1008' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;slave name='pio_0.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /&gt;&lt;slave name='mem_cpy_accel_0.slave' start='0x1040' end='0x1080' type='mem_cpy_accel.slave' /&gt;&lt;slave name='new_sdram_controller_0.s1' start='0x8000000' end='0xC000000' type='altera_avalon_new_sdram_controller.s1' /&gt;&lt;/address-map&gt;</td>
+        <td class="parametervalue">&lt;address-map&gt;&lt;slave name='nios2_gen2_0.debug_mem_slave' start='0x800' end='0x1000' type='altera_nios2_gen2.debug_mem_slave' /&gt;&lt;slave name='jtag_uart_0.avalon_jtag_slave' start='0x1000' end='0x1008' type='altera_avalon_jtag_uart.avalon_jtag_slave' /&gt;&lt;slave name='pio_0.s1' start='0x1010' end='0x1020' type='altera_avalon_pio.s1' /&gt;&lt;slave name='mem_cpy_accel_0.slave' start='0x1040' end='0x1080' type='mem_cpy_accel.slave' /&gt;&lt;slave name='dnn_accel_0.slave' start='0x1080' end='0x10C0' type='dnn_accel.slave' /&gt;&lt;slave name='new_sdram_controller_0.s1' start='0x8000000' end='0xC000000' type='altera_avalon_new_sdram_controller.s1' /&gt;&lt;/address-map&gt;</td>
        </tr>
        <tr>
         <td class="parametername">tightlyCoupledDataMaster0MapParam</td>
@@ -2096,7 +2257,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
        <a href="#module_clk_0">clk_0</a>
       </td>
       <td class="from">clk&#160;&#160;</td>
-      <td class="main" rowspan="18">pll_0</td>
+      <td class="main" rowspan="21">pll_0</td>
      </tr>
      <tr>
       <td class="to">&#160;&#160;refclk</td>
@@ -2177,6 +2338,22 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
       <td class="from">outclk0&#160;&#160;</td>
       <td class="neighbor" rowspan="2">
        <a href="#module_mem_cpy_accel_0">mem_cpy_accel_0</a>
+      </td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="to">&#160;&#160;clock</td>
+     </tr>
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+     <tr>
+      <td></td>
+      <td></td>
+      <td class="from">outclk0&#160;&#160;</td>
+      <td class="neighbor" rowspan="2">
+       <a href="#module_dnn_accel_0">dnn_accel_0</a>
       </td>
      </tr>
      <tr>
@@ -4103,7 +4280,7 @@ div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; bord
   <table class="blueBar">
    <tr>
     <td class="l">generation took 0.00 seconds</td>
-    <td class="r">rendering took 0.04 seconds</td>
+    <td class="r">rendering took 0.05 seconds</td>
    </tr>
   </table>
  </body>
